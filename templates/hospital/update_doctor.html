@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% block title %}Update Doctor{% endblock title %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<style>
+    .input-upload {
+        position: relative;
+    }
+
+    .delete-icon {
+        position: absolute;
+        top: 33px; /* Adjust the value as needed to position the icon */
+        right: 1068px; /* Adjust the value as needed to position the icon */
+        cursor: pointer;
+        color: black; /* You can change the color to fit your design */
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="content-header d-flex justify-content-between">
+            <div class="page-header m-0">
+                <h4 class="page-title">Update Doctor</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="typcn typcn-home-outline"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Doctor</a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Update Doctor</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+                
+        <div class="body-content">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 fw-semi-bold mb-0">Doctor status</h6>
+                        </div>
+                        <div class="text-end">
+                            <div class="actions">
+                                <a href="#" class="action-item"><i class="ti-reload"></i></a>
+                                <div class="dropdown action-item">
+                                    <a href="#" class="action-item" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Refresh</a>
+                                        <a href="#" class="dropdown-item">Manage Widgets</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form action="{% url 'dashboard:update_doctor' doctor.id %}" enctype="multipart/form-data" method="POST" accept-charset="utf-8">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="category_name" class="form-label">Email:</label>
+                                <input type="email" placeholder="Email Type here" class="form-control" name="email" value="{{ doctor.user.email }}" readonly/>
+                            </div>
+                            <div class="mb-4">
+                                <label for="category_name" class="form-label">Full Name:</label>
+                                <input type="text" placeholder="Full Name Type here" class="form-control" name="full_name" value="{{ doctor.user.full_name }}"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">User Type</label>
+                                <select class="form-select" name="user_type">
+                                    <option value="2" selected>Doctor</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Department</label>
+                                <select class="form-select" name="department">
+                                    {% for dep in department_list %}
+                                        <option value="{{ dep.id }}" {% if doctor.department and dep.id == doctor.department.id %}selected{% endif %}>
+                                            {{ dep.department_name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>                            
+                            <div class="mb-4">
+                                <label class="form-label">Visit Amount</label>
+                                    <input type="number" name="visit_price" class="form-control" value="{{ doctor.visit_price }}" placeholder="">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Date Of Birth</label>
+                                {% if doctor.user.dob %}
+                                    {% with dob=doctor.user.dob|date:"Y-m-d" %}
+                                        <input type="date" name="dob" class="form-control" value="{{ dob }}">
+                                    {% endwith %}
+                                {% else %}
+                                    <input type="date" name="dob" class="form-control" placeholder="">
+                                {% endif %}
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Phone Number</label>
+                                <input placeholder="Phone Number" type="number" class="form-control" name="phone_number" value="{{ doctor.user.phone_number }}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Address</label>
+                                <input placeholder="Address" type="text" class="form-control" name="address" value="{{ doctor.user.address }}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Profile Picture</label>
+                                <div class="input-upload">
+                                    <input class="form-control" type="file" name="profile_avatar" id="profile-avatar-input" />
+                                    {% if doctor.user.profile_avatar %}
+                                        <img id="profile-avatar-preview" src="{{ doctor.user.profile_avatar.url }}" width="45" height="45">
+                                        <span id="delete-profile-avatar" class="delete-icon" onclick="deleteProfileAvatar()">✖</span>
+                                        <input type="hidden" name="delete_profile_avatar" id="delete-profile-avatar-input" value="">
+                                    {% else %}
+                                        <img id="profile-avatar-preview" src="" width="45" height="45" style="display: none;">
+                                        <span id="delete-profile-avatar" class="delete-icon" onclick="deleteProfileAvatar()" style="display: none;">✖</span>
+                                        <input type="hidden" name="delete_profile_avatar" id="delete-profile-avatar-input" value="">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="specialization" class="form-label">Specialization</label>
+                                <input type="text" placeholder="Specialization Type here" class="form-control" name="specialization" value="{{ doctor.specialization }}">
+                            </div>
+                            <div class="mb-4">
+                                <label for="experience" class="form-label">Experience Year:</label>
+                                <input type="number" placeholder="Experience Type here" class="form-control" name="experience" value="{{ doctor.experience }}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" name="status">
+                                    <option value="true" {% if doctor.status %} selected {% endif %}>Active</option>
+                                    <option value="false" {% if not doctor.status %} selected {% endif %}>Inactive</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+<script>
+    function deleteProfileAvatar() {
+        // Set the value of delete_profile_avatar to 'true' when the cross is clicked
+        document.getElementById('delete-profile-avatar-input').value = 'true';
+
+        // Hide the image preview
+        document.getElementById('profile-avatar-preview').style.display = 'none';
+
+        // Reset the file input to allow reselection
+        document.getElementById('profile-avatar-input').value = '';
+
+        // Hide the delete icon
+        document.getElementById('delete-profile-avatar').style.display = 'none';
+    }
+</script>
+
+{% endblock %}

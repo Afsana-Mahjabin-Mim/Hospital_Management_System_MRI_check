@@ -1,0 +1,102 @@
+{% load static %}
+<nav class="sidebar sidebar-bunker" style="overflow-y: auto;">
+    <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+            {% comment %} <img class="sidebar-brand_icon" src="" alt=""> {% endcomment %}
+
+        </a>
+    </div>
+    <!--/.sidebar header-->
+    <div class="profile-element d-flex align-items-center flex-shrink-0">
+        <div class="avatar online">
+            <img src="{% static 'assets/dist/img/man6.png' %}" class="img-fluid rounded-circle" alt="">
+        </div>
+        <div class="profile-text">
+            <h6 class="m-0">Super Admin</h6>
+            <span>admin@gmail.com</span>
+        </div>
+    </div>
+    <!--/.profile element-->
+    <form class="search sidebar-form" action="#" method="get">
+        <div class="search__inner">
+            <input type="text" class="search__text" placeholder="Search...">
+            <i class="typcn typcn-zoom-outline search__helper" data-sa-action="search-close"></i>
+        </div>
+    </form>
+    <!--/.search-->
+    <div class="sidebar-body">
+        <nav class="sidebar-nav">
+            <ul class="metismenu">
+                <li class="nav-label">
+                    <span class="nav-label_text">Main Menu</span>
+                    <small class="ti-more-alt nav-label_ellipsis"></small>
+                </li>
+                
+                <li>
+                    <a class="has-arrow material-ripple" href="#">
+                        <i class="typcn typcn-home-outline"></i> Dashboard
+                    </a>
+                    <ul class="nav-second-level">
+                        <li><a href="{% url 'dashboard:dashboard' %}">Default</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="has-arrow material-ripple" href="#">
+                        <i class="hvr-buzz-out fab fa-product-hunt"></i> Doctor
+                    </a>
+                    <ul class="nav-second-level">
+                        <li><a href="{% url 'dashboard:add_doctor' %}">Add Doctor</a></li>
+                        <li><a href="{% url 'dashboard:doctor_list' %}">Doctor List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="has-arrow material-ripple" href="#">
+                        <i class="hvr-buzz-out fab fa-product-hunt"></i>Patient
+                    </a>
+                    <ul class="nav-second-level">
+                        <li><a href="{% url 'dashboard:add_patient' %}">Add Patient</a></li>
+                        <li><a href="{% url 'dashboard:patient_list' %}">Patient List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="has-arrow material-ripple" href="#">
+                        <i class="hvr-buzz-out fas fa-user-clock"></i>Appoinment
+                    </a>
+                    <ul class="nav-second-level">
+                        <li><a href="{% url 'dashboard:appoinment' %}">Add Appointment</a></li>
+                        <li><a href="{% url 'dashboard:appoinment_list' %}">Appointment List</a></li>
+                       
+                    </ul>
+                </li>
+                <li>
+                    <a class="has-arrow material-ripple" href="#">
+                        <i class="hvr-buzz-out fas fa-user-clock"></i>Test
+                    </a>
+                    <ul class="nav-second-level">
+                        <li><a href="{% url 'dashboard:add_test_type' %}">Add Test Type</a></li>
+                        <li><a href="{% url 'dashboard:test_type_list' %}">Test Type List</a></li>
+                       
+                    </ul>
+                </li>
+                <li>
+                    <a class="has-arrow material-ripple" href="#">
+                        <i class="hvr-buzz-out fas fa-user-clock"></i>Medical Test Data
+                    </a>
+                    <ul class="nav-second-level">
+                        <li><a href="{% url 'dashboard:add_medical_test' %}">Add Medical Test</a></li>
+                        <li><a href="{% url 'dashboard:medical_test_list' %}">Medical Test List</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="has-arrow material-ripple" href="#">
+                        <i class="hvr-buzz-out fas fa-user-clock"></i>Test Image Report
+                    </a>
+                    <ul class="nav-second-level">
+                        <li><a href="{% url 'dashboard:add_test_image_report' %}">Add Test Report</a></li>
+                        <li><a href="{% url 'dashboard:test_image_report_all' %}">All Test Report</a></li>
+                    </ul>
+                </li>  
+            </ul>
+        </nav>
+    </div>
+</nav>

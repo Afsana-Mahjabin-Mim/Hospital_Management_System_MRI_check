@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block title %}Update Patient{% endblock title %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<style>
+    .input-upload {
+        position: relative;
+    }
+
+    .delete-icon {
+        position: absolute;
+        top: 33px; /* Adjust the value as needed to position the icon */
+        right: 1068px; /* Adjust the value as needed to position the icon */
+        cursor: pointer;
+        color: black; /* You can change the color to fit your design */
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="content-header d-flex justify-content-between">
+            <div class="page-header m-0">
+                <h4 class="page-title">Update Patient</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="typcn typcn-home-outline"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Patient</a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Update Patient</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+                
+        <div class="body-content">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 fw-semi-bold mb-0">Patient status</h6>
+                        </div>
+                        <div class="text-end">
+                            <div class="actions">
+                                <a href="#" class="action-item"><i class="ti-reload"></i></a>
+                                <div class="dropdown action-item">
+                                    <a href="#" class="action-item" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Refresh</a>
+                                        <a href="#" class="dropdown-item">Manage Widgets</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form action="{% url 'dashboard:update_patient' patient.id %}" enctype="multipart/form-data" method="POST" accept-charset="utf-8">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" placeholder="Email Type here" class="form-control" name="email" value="{{ patient.user.email }}" readonly/>
+                            </div>
+                            <div class="mb-4">
+                                <label for="full_name" class="form-label">Full Name:</label>
+                                <input type="text" placeholder="Full Name Type here" class="form-control" name="full_name" value="{{ patient.user.full_name }}" readonly/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">User Type</label>
+                                <select class="form-select" name="user_type">
+                                    <option value="3" selected>Patient</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Date Of Birth</label>
+                                {% if patient.user.dob %}
+                                    {% with dob=patient.user.dob|date:"Y-m-d" %}
+                                        <input type="date" name="dob" class="form-control" value="{{ dob }}">
+                                    {% endwith %}
+                                {% else %}
+                                    <input type="date" name="dob" class="form-control" placeholder="">
+                                {% endif %}
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Phone Number</label>
+                                <input placeholder="Phone Number" type="number" class="form-control" name="phone_number" value="{{ patient.phone_number }}"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Address</label>
+                                <input placeholder="Address" type="text" class="form-control" name="address" value="{{ patient.address }}"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Profile Picture</label>
+                                <div class="input-upload">
+                                    <input class="form-control" type="file" name="profile_avatar" id="profile-avatar-input" />
+                                    {% if patient.user.profile_avatar %}
+                                        <img id="profile-avatar-preview" src="{{ patient.user.profile_avatar.url }}" width="45" height="45">
+                                        <span id="delete-profile-avatar" class="delete-icon" onclick="deleteProfileAvatar()">✖</span>
+                                    {% else %}
+                                        <img id="profile-avatar-preview" src="" width="45" height="45" style="display: none;">
+                                        <span id="delete-profile-avatar" class="delete-icon" style="display: none;">✖</span>
+                                    {% endif %}
+                                    <input type="hidden" name="delete_profile_avatar" id="delete-profile-avatar-input" value="">
+                                </div>
+                            </div>                            
+                            <div class="mb-4">
+                                <label class="form-label">Gender</label>
+                                <select class="form-select" name="gender">
+                                    <option value="M" {% if patient.gender == 'M' %}selected{% endif %}>Male</option>
+                                    <option value="F" {% if patient.gender == 'F' %}selected{% endif %}>Female</option>
+                                    <option value="O" {% if patient.gender == 'O' %}selected{% endif %}>Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Marital Status</label>
+                                <select class="form-select" name="marital_status">
+                                    <option value="S" {% if patient.marital_status == 'S' %}selected{% endif %}>Single</option>
+                                    <option value="M" {% if patient.marital_status == 'M' %}selected{% endif %}>Married</option>
+                                    <option value="W" {% if patient.marital_status == 'W' %}selected{% endif %}>Widowed</option>
+                                    <option value="D" {% if patient.marital_status == 'D' %}selected{% endif %}>Divorced</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Blood Type</label>
+                                <select class="form-select" name="blood_type">
+                                    <option value="A+" {% if patient.blood_type == 'A+' %}selected{% endif %}>A+</option>
+                                    <option value="A-" {% if patient.blood_type == 'A-' %}selected{% endif %}>A-</option>
+                                    <option value="B+" {% if patient.blood_type == 'B+' %}selected{% endif %}>B+</option>
+                                    <option value="B-" {% if patient.blood_type == 'B-' %}selected{% endif %}>B-</option>
+                                    <option value="AB+" {% if patient.blood_type == 'AB+' %}selected{% endif %}>AB+</option>
+                                    <option value="AB-" {% if patient.blood_type == 'AB-' %}selected{% endif %}>AB-</option>
+                                    <option value="O+" {% if patient.blood_type == 'O+' %}selected{% endif %}>O+</option>
+                                    <option value="O-" {% if patient.blood_type == 'O-' %}selected{% endif %}>O-</option>
+                                    <option value="NA" {% if patient.blood_type == 'NA' %}selected{% endif %}>Not Available</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Emergency Contact Number</label>
+                                <input placeholder="Emergency Contact Number" type="text" class="form-control" name="emergency_contact_number" value="{{ patient.emergency_contact_number }}"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" name="status">
+                                    <option value="true" {% if patient.status %}selected{% endif %}>Active</option>
+                                    <option value="false" {% if not patient.status %}selected{% endif %}>Inactive</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+<script>
+    function deleteProfileAvatar() {
+        // Set the value of delete_profile_avatar to 'true' when the cross is clicked
+        document.getElementById('delete-profile-avatar-input').value = 'true';
+
+        // Hide the image preview
+        document.getElementById('profile-avatar-preview').style.display = 'none';
+
+        // Hide the delete icon
+        document.getElementById('delete-profile-avatar').style.display = 'none';
+
+        // Reset the file input to allow reselection
+        document.getElementById('profile-avatar-input').value = '';
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block title %}Add Medical Test{% endblock title %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="content-header d-flex justify-content-between">
+            <div class="page-header m-0">
+                <h4 class="page-title">Add New Medical Test</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="typcn typcn-home-outline"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Medical Test</a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Add Medical Test</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+                
+        <!-- Button trigger modal -->
+
+        <div class="body-content">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 fw-semi-bold mb-0">Medical Test status</h6>
+                        </div>
+                        <div class="text-end">
+                            <div class="actions">
+                                <a href="#" class="action-item"><i class="ti-reload"></i></a>
+                                <div class="dropdown action-item">
+                                    <a href="#" class="action-item" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Refresh</a>
+                                        <a href="#" class="dropdown-item">Manage Widgets</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form action="." enctype="multipart/form-data" method="POST" accept-charset="utf-8">
+                            {% csrf_token %}
+
+                            <div class="mb-4">
+                                <label class="form-label">Patient Information</label>
+                                <select class="form-select" name="patient">
+                                    <option value="">Select Patient</option>
+                                    {% for patients in patient_list %}
+                                        <option value="{{patients.id}}">{{ patients.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Doctor</label>
+                                <select class="form-select" name="doctor">
+                                    <option value="">Select Doctor</option>
+                                    {% for doctors in doctor_list %}
+                                        <option value="{{doctors.id}}">{{ doctors.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Test Type</label>
+                                <select class="form-select" name="test_type" id="test-type-select">
+                                    <option value="">Select Test Type</option>
+                                    {% for test_type in test_type_list %}
+                                        <option value="{{ test_type.id }}" data-amount="{{ test_type.amount }}">
+                                            {{ test_type.short_name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Test Price Amount</label>
+                                <input type="text" placeholder="Test Price Amount Type here" class="form-control" name="amount" id="visit-amount-input">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Medical Test Date</label>
+                                <input type="date" class="form-control" name="test_date"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Test Details</label>
+                                <textarea placeholder="Details" class="form-control" name="details"></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const testSelector = document.getElementById('test-type-select');
+        const visitPriceInput = document.getElementById('visit-amount-input');
+    
+        testSelector.addEventListener('change', function () {
+            const selectedTestId = testSelector.value;
+            if (selectedTestId) {
+                fetch(`/dashboard/get-test-visit-price/${selectedTestId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        visitPriceInput.value = data.visit_price;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching visit price:', error);
+                    });
+            } else {
+                visitPriceInput.value = '';
+            }
+        });
+    });
+</script>
+
+
+{% endblock %}

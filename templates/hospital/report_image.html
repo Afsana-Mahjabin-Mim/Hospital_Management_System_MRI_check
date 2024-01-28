@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}All Report Image{% endblock %}
+{% load static %}
+{% block css %}
+<link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" />
+<style>
+    .height_90 {
+        height: 200px!important;
+    }
+    .mfp-content {
+        z-index: 1078;
+    }
+    .mfp-wrap {
+        z-index: 1077;
+    }
+    .mfp-bg {
+        z-index: 1076;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="content-header d-flex justify-content-between">
+            <div class="page-header m-0">
+                <h4 class="page-title">Test Report Images</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="typcn typcn-home-outline"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Test Report </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">All Images</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="body-content">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 fw-semi-bold mb-0">Test Report Images</h6>
+                        </div>
+                        <div class="text-end">
+                            <div class="actions">
+                                <a href="#" class="action-item"><i class="ti-reload"></i></a>
+                                <div class="dropdown action-item">
+                                    <a href="#" class="action-item" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Refresh</a>
+                                        <a href="#" class="dropdown-item">Manage Widgets</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="row py-4 g-4 gallery">
+                            {% for medical_test_image in medical_test_images %}
+                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                <a href="{{ medical_test_image.image.url }}">
+                                    <img class="img-fluid shadow-sm rounded-3 height_90 w-100" src="{{ medical_test_image.image.url }}" alt="Medical Test Image" />
+                                </a>
+                            </div>
+                            {% if forloop.counter|divisibleby:3 %}
+                                <script>
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 5000);
+                                </script>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock  %}
+
+{% block js %}
+
+{% endblock js %}

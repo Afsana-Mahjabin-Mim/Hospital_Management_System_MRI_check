@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}Update Test Type{% endblock title %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="content-header d-flex justify-content-between">
+            <div class="page-header m-0">
+                <h4 class="page-title">Update New Test Type</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="typcn typcn-home-outline"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Test Type</a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Update Test Type</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+                
+        <!-- Button trigger modal -->
+               
+        <div class="body-content">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 fw-semi-bold mb-0">Test Type status</h6>
+                        </div>
+                        <div class="text-end">
+                            <div class="actions">
+                                <a href="#" class="action-item"><i class="ti-reload"></i></a>
+                                <div class="dropdown action-item">
+                                    <a href="#" class="action-item" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Refresh</a>
+                                        <a href="#" class="dropdown-item">Manage Widgets</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form action="" method="POST" accept-charset="utf-8">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="name" class="form-label">Test Name:</label>
+                                <input type="text" placeholder="Test Name Type here" class="form-control" name="name" value="{{ test_type.name }}">
+                            </div>
+                            <div class="mb-4">
+                                <label for="short_name" class="form-label">Test Type Short Name:</label>
+                                <input type="text" placeholder="Short Name Type here" class="form-control" name="short_name" value="{{ test_type.short_name }}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Test Cost Amount</label>
+                                <input placeholder="Amount of Test Type" type="number" class="form-control" name="amount" value="{{ test_type.amount }}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Test Description</label>
+                                <textarea placeholder="Description Type Here" class="form-control" name="description">{{ test_type.description }}</textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label for="PreparationInstructions" class="form-label">Preparation Instructions</label>
+                                <textarea placeholder="Preparation Instructions Type here" class="form-control" name="preparation_instructions">{{ test_type.preparation_instructions }}</textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+{% endblock content %}
+    
+    

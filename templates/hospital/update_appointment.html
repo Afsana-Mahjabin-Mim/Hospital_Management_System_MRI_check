@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% block title %}Update Appointment{% endblock title %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="content-header d-flex justify-content-between">
+            <div class="page-header m-0">
+                <h4 class="page-title">Update Appointment</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="typcn typcn-home-outline"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Appointment</a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Update Appointment</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+                
+        <!-- Button trigger modal -->
+               
+        <div class="body-content">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 fw-semi-bold mb-0">Appointment status</h6>
+                        </div>
+                        <div class="text-end">
+                            <div class="actions">
+                                <a href="#" class="action-item"><i class="ti-reload"></i></a>
+                                <div class="dropdown action-item">
+                                    <a href="#" class="action-item" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Refresh</a>
+                                        <a href="#" class="dropdown-item">Manage Widgets</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form action="." enctype="multipart/form-data" method="POST" accept-charset="utf-8">
+                            {% csrf_token %}
+
+                            <div class="mb-4">
+                                <label class="form-label">Patient Information</label>
+                                <select class="form-select" name="patient" id="patient-selector">
+                                    <option value="{{ selected_appointment.patient.id }}" selected>{{ selected_appointment.patient.name }}</option>
+                                    {% for patients in patient_list %}
+                                        <option value="{{patients.id}}">{{ patients.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Department</label>
+                                <select class="form-select" name="department" id="department-selector">
+                                    <option value="{{ selected_appointment.department.id }}" selected>{{ selected_appointment.department.department_name }}</option>
+                                    {% for dep in department_list %}
+                                        <option value="{{dep.id}}">{{ dep.department_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Doctor</label>
+                                <select class="form-select" name="doctor" id="doctor-selector">
+                                    <option value="{{ selected_appointment.doctor.id }}" selected>{{ selected_appointment.doctor.name }}</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="visit_price" class="form-label">Visit Amount</label>
+                                <input type="text" placeholder="Visit Amount Type here" class="form-control" name="visit_price" id="visit-price-input" value="{{ selected_appointment.visit_price }}" readonly>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Appointment Date</label>
+                                <input type="date" name="appointment_date" class="form-control" value="{% if selected_appointment.appointment_date %}{{ selected_appointment.appointment_date|date:'Y-m-d' }}{% endif %}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Appointment Time</label>
+                                <input type="time" class="form-control" name="appointment_time" value="{% if selected_appointment.appointment_time %}{{ selected_appointment.appointment_time|time:'H:i' }}{% endif %}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Age</label>
+                                <input placeholder="number" type="number" class="form-control" name="age" value="{{ selected_appointment.age }}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Details</label>
+                                <textarea placeholder="Details" class="form-control" name="details">{{ selected_appointment.details }}</textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Allergies</label>
+                                <textarea placeholder="Allergies" class="form-control" name="allergies">{{ selected_appointment.allergies }}</textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label for="medications" class="form-label">Medications</label>
+                                <textarea placeholder="Medications Type here" class="form-control" name="medications">{{ selected_appointment.medications }}</textarea>
+                            </div>                            
+                            <div class="mb-4">
+                                <label class="form-label">Confirmation Status</label>
+                                <select class="form-select" name="confirmation">
+                                    <option value="Pending" {% if selected_appointment.confirmation == 'Pending' %} selected {% endif %}>Pending</option>
+                                    <option value="Confirmed" {% if selected_appointment.confirmation == 'Confirmed' %} selected {% endif %}>Confirmed</option>
+                                    <option value="Canceled" {% if selected_appointment.confirmation == 'Canceled' %} selected {% endif %}>Cancelled</option>
+                                    <option value="Completed" {% if selected_appointment.confirmation == 'Completed' %} selected {% endif %}>Completed</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+<script>
+    document.getElementById('department-selector').addEventListener('change', function() {
+        var departmentId = this.value;
+        var doctorSelect = document.getElementById('doctor-selector');
+        
+        // Clear existing options
+        doctorSelect.innerHTML = '<option value="">Select Department First</option>';
+    
+        if (departmentId) {
+            // Fetch doctors based on the selected department using AJAX
+            fetch(`/dashboard/get-doctors-by-department/${departmentId}/`)
+                .then(response => response.json())
+                .then(doctors => {
+                    doctors.forEach(doctor => {
+                        var option = document.createElement('option');
+                        option.value = doctor.id;
+                        option.textContent = doctor.name;
+                        doctorSelect.appendChild(option);
+                    });
+                });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const doctorSelector = document.getElementById('doctor-selector');
+        const visitPriceInput = document.getElementById('visit-price-input');
+
+        doctorSelector.addEventListener('change', function () {
+            const selectedDoctorId = doctorSelector.value;
+            if (selectedDoctorId) {
+                fetch(`/dashboard/get-doctor-visit-price/${selectedDoctorId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        visitPriceInput.value = data.visit_price;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching visit price:', error);
+                    });
+            } else {
+                visitPriceInput.value = '';
+            }
+        });
+    });
+
+</script>
+
+{% endblock %}

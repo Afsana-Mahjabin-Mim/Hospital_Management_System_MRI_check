@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block  title %}Patient List{% endblock %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock css %}
+    
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="main-content">
+   
+        <div class="content-header d-flex justify-content-between">
+            <div class="page-header m-0">
+                <h4 class="page-title">Patient List</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="typcn typcn-home-outline"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Patient</a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Patient List</a>
+                    </li>
+                </ul>
+               
+            </div>
+        </div>
+               
+        <div class="body-content">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 fw-semi-bold mb-0">Patient List status</h6>
+                        </div>
+                        <div class="text-end">
+                            <div class="actions">
+                                <a href="#" class="action-item"><i class="ti-reload"></i></a>
+                                <div class="dropdown action-item">
+                                    <a href="#" class="action-item" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Refresh</a>
+                                        <a href="#" class="dropdown-item">Manage Widgets</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- data-table start -->
+                        <div class="body-content">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table display table-bordered table-striped table-hover basic">
+                                            <thead>
+                                                <tr>
+                                                    <th>SL</th>
+                                                    <th>Email</th>
+                                                    <th>Full Name</th>
+                                                    <th>Gender</th>
+                                                    <th>Phone Number</th>
+                                                    <th>Profile Picture</th>
+                                                    <th>Marital Status</th>
+                                                    <th>Blood Type</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>      
+                                                {% for obj in patient_list %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ obj.user.email }}</td>
+                                                    <td>{{ obj.user.full_name }}</td>
+                                                    <td>{{ obj.gender }}</td>
+                                                    <td>{{ obj.phone_number }}</td>
+                                                    <td>
+                                                        {% if obj.profile_pic %}
+                                                            <img src="{{ obj.profile_pic.url }}" alt="Profile Picture" width="45" height="45">
+                                                        {% else %}
+                                                            No Profile Picture Available
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ obj.marital_status }}</td>
+                                                    <td>{{ obj.blood_type }}</td>
+                                                    <td>{{ obj.status }}</td>
+                                                    <td>
+                                                        <div class="btn-group" role="group">
+                                                            <a href="{% url 'dashboard:update_patient' obj.id %}" class="btn btn-outline-success me-2">
+                                                                <i class='far fa-edit'></i>
+                                                            </a>
+                                                            <a href="#" class="btn btn-outline-danger" onclick="confirmDelete('{{ obj.id }}')">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                        <!-- data-table end -->
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+        <!--/.body content-->
+</div>
+    <!--/.main content-->
+
+
+
+{% endblock  %}
+
+{% block js %}
+<!-- Third Party Scripts(used by this page)-->
+<script src="{% static 'assets/plugins/datatables/dataTables.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<!-- Include SweetAlert directly from the CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script>
+    function confirmDelete(patientId) {
+        // Use SweetAlert for confirmation
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the delete view
+                window.location.href = '{% url "dashboard:delete_patient" 0 %}'.replace('0', patientId);
+            }
+        });
+    }
+</script>
+
+{% endblock js %}

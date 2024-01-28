@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% block  title %}Dashboard{% endblock %}
+{% load static %}
+{% block css %}
+<link href="{% static 'assets/dist/css/style-new.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block  content %}
+<div class="content-wrapper">
+    <div class="main-content">
+    
+        <div class="body-content">
+            <div class="tile">
+                <div class="row dashboard_heading">
+                    <div class="col-12 col-md-6">
+                        <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                            <div class="slider d-none d-lg-block"></div>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Dashboard</a>
+                            </li>
+                            {% comment %}
+                            <li class="nav-item">
+                                <a class="nav-link mt-0" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Client</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mt-0" id="pills-contact-tab" data-bs-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
+                            </li>
+                            {% endcomment %}
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-6 d-flex justify-content-start justify-content-md-end align-items-center mb-3 mb-md-0">
+                        {% comment %}
+                        <button type="button" class="btn btn-inverse-soft btn-sm w-100p me-2" data-bs-toggle="modal" data-bs-target="#exampleModalImport" data-bs-whatever="@mdo"> <i class="hvr-buzz-out ti-upload me-2 mb-1"></i>Import</button>
+                        <button type="button" class="btn btn-inverse-soft btn-sm w-100p me-2" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="hvr-buzz-out ti-plus me-2 mb-1"></i>Add User</button>
+                        {% endcomment %}
+                    </div>
+                </div>
+
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <div class="row mb-3">
+                            <div class="col-lg-6 col-xl-4 col-xxl-3 mb-3">
+                                <div class="card overflow-hidden gradient-01">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-8 text-white">
+                                                <h6 class="mb-2 fs-18">Total Doctor (Qty)</h6>
+                                                <p class="mb-2 fs-20 fw-bold">{{ doctor_count }}</p>
+                                            </div>
+                                            <div class="col-4 align-items-center d-flex">
+                                                <div class="counter-icon bg-info-gradient box-shadow-primary rounded-circle ms-auto"> <i class="typcn typcn-shopping-cart text-white"></i> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-4 col-xxl-3 mb-3">
+                                <div class="card overflow-hidden gradient-02">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-8 text-white">
+                                                <h6 class="mb-2 fs-18">Total Patient</h6>
+                                                <p class="mb-2 fs-20 fw-bold">{{ patient_count }}</p>
+                                            </div>
+                                            <div class="col-4 align-items-center d-flex">
+                                                <div class="counter-icon bg-dark-gradient box-shadow-primary rounded-circle ms-auto"> <i class="typcn typcn-calculator text-white"></i> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-4 col-xxl-3 mb-3">
+                                <div class="card overflow-hidden gradient-03">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-8 text-white">
+                                                <h6 class="mb-2 fs-18">Appointments</h6>
+                                                <p class="mb-2 fs-20 fw-bold">{{ appointment_count }}</p>
+                                            </div>
+                                            <div class="col-4 align-items-center d-flex">
+                                                <div class="counter-icon bg-success-gradient box-shadow-primary rounded-circle ms-auto"> <i class="typcn typcn-chart-line-outline text-white"></i> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="col-lg-6 col-xl-4 col-xxl-3 mb-3">
+                                <div class="card overflow-hidden gradient-04">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-8 text-white">
+                                                <h6 class="mb-2 fs-18">Total Test</h6>
+                                                <p class="mb-2 fs-20 fw-bold">{{ medical_test_count }}</p>
+                                            </div>
+                                            <div class="col-4 align-items-center d-flex">
+                                                <div class="counter-icon bg-primary-gradient box-shadow-primary rounded-circle ms-auto"> <i class="ti-handshake text-white"></i> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="header-body mb-4 pt-0">
+                                    <div class="row align-items-end">
+                                        <div class="col">
+                                            <!-- Pretitle -->
+                                            <h6 class="header-pretitle text-muted fs-11 fw-bold text-uppercase mb-1">
+                                                Overview
+                                            </h6>
+                                            <!-- Title -->
+                                            <h1 class="header-title fs-21 fw-bold">
+                                                Performance
+                                            </h1>
+                                        </div>
+                                        <div class="col-auto">
+                                            <!-- Nav -->
+                                            <ul class="nav nav-tabs header-tabs">
+                                                <li class="nav-item">
+                                                    <a href="#" id="0" class="nav-link text-center active" data-bs-toggle="tab">
+                                                        <h6 class="header-pretitle text-muted fs-11 fw-bold text-uppercase mb-1">
+                                                            Earnings
+                                                        </h6>
+                                                        <h3 class="mb-0 fs-16 fw-bold">
+                                                            $19.2k
+                                                        </h3>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#" id="1" class="nav-link text-center" data-bs-toggle="tab">
+                                                        <h6 class="header-pretitle text-muted fs-11 fw-bold text-uppercase mb-1">
+                                                            Sessions
+                                                        </h6>
+                                                        <h3 class="mb-0 fs-16 fw-bold">
+                                                            92.1k
+                                                        </h3>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#" id="2" class="nav-link text-center" data-bs-toggle="tab">
+                                                        <h6 class="header-pretitle text-muted fs-11 fw-bold text-uppercase mb-1">
+                                                            Bounce
+                                                        </h6>
+                                                        <h3 class="mb-0 fs-16 fw-bold">
+                                                            50.2%
+                                                        </h3>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- / .row -->
+                                </div>
+                                <!-- / .header-body -->
+                                <div class="chart">
+                                    <canvas id="forecast" width="300" height="100"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.body content-->
+    </div>
+
+    <!--/.footer content-->
+    <div class="overlay"></div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'assets/plugins/datatables/dataTables.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/responsive.bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/buttons.bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/jszip.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/vfs_fonts.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/dist/js/data-bootstrap.active.js' %}"></script>
+
+<script src="{% static 'assets/plugins/chartJs/Chart.min.js' %}"></script>
+<script src="{% static 'assets/plugins/chartJs/chartJs.active.js' %}"></script>
+
+
+<script>
+    $(".nav-tabs a").click(function() {
+        var position = $(this).parent().position();
+        var width = $(this).parent().width();
+        $(".slider").css({
+            "left": +position.left,
+            "width": width
+        });
+    });
+    var actWidth = $(".nav-tabs .active").width();
+    var actPosition = $(".nav-tabs .active").position();
+    $(".slider").css({
+        "left": 25,
+        "width": actWidth
+    });
+</script>
+{% endblock %}
+

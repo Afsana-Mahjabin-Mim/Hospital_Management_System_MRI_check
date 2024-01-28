@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<!--<html lang="ar" dir="rtl">-->
+{% load static %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Responsive Bootstrap 4 Admin &amp; Dashboard Template">
+    <meta name="author" content="Bdtask">
+    <title>HMS - {% block title %}{% endblock %}</title>
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/dist/img/favicon.png' %}">
+    <!--Global Styles(used by all pages)-->
+    <link href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!--<link href="assets/plugins/bootstrap/css/bootstrap.rtl.min.css" rel="stylesheet" type="text/css"/>-->
+    <link href="{% static 'assets/plugins/metisMenu/metisMenu.css' %}" rel="stylesheet">
+    <!--<link href="assets/plugins/metisMenu/metisMenu-rtl.css" rel="stylesheet">-->
+    <link href="{% static 'assets/plugins/fontawesome/css/all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/typicons/src/typicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/plugins/themify-icons/themify-icons.min.css' %}" rel="stylesheet">
+    <!--Third party Styles(used by this page)-->
+    
+    <link href="{% static 'assets/dist/css/black-gray.css' %}" rel="stylesheet">
+
+    <!--Style Switcher-->
+    <link rel="alternate stylesheet" type="text/css" title="black-gray" href="{% static 'assets/dist/css/black-gray.css' %}" />
+    <link rel="alternate stylesheet" type="text/css" title="green-teal" href="{% static 'assets/dist/css/green-teal.css' %}" />
+    <link rel="alternate stylesheet" type="text/css" title="gradient-purple" href="{% static 'assets/dist/css/gradient-purple.css' %}" />
+    <link rel="alternate stylesheet" type="text/css" title="red-pink" href="{% static 'assets/dist/css/red-pink.css' %}" />
+    <link rel="alternate stylesheet" type="text/css" title="indigo-blue" href="{% static 'assets/dist/css/style-new.css' %}" />
+    <link rel="alternate stylesheet" type="text/css" title="deep-purple" href="{% static 'assets/dist/css/deep-purple.css' %}" />
+    <link rel="alternate stylesheet" type="text/css" title="teal" href="{% static 'assets/dist/css/teal.css' %}" />
+    <link rel="alternate stylesheet" type="text/css" title="pink" href="{% static 'assets/dist/css/pink.css' %}" />
+    <link rel="alternate stylesheet" type="text/css" title="brown" href="{% static 'assets/dist/css/brown.css' %}" />
+    <link rel="alternate stylesheet" type="text/css" title="olive" href="{% static 'assets/dist/css/olive.css' %}" />
+
+    {% block css %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/dist/css/styleswitcher.css' %}" />
+    <!--<link href="assets/dist/css/style.rtl.css" rel="stylesheet">-->
+</head>
+
+<body class="fixed sidebar-mini">
+    <!-- Style Switcher Starts -->
+    <div id="switcher" class="">
+        <div class="content-switcher">
+            <h4>STYLE SWITCHER</h4>
+            <ul>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('black-gray');" title="Black gray" class="black-gray"></a>
+                </li>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('green-teal');" title="Green teal" class="green-teal"></a>
+                </li>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('gradient-purple');" title="Gradient purple" class="gradient-purple"></a>
+                </li>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('red-pink');" title="Red pink" class="red-pink"></a>
+                </li>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('indigo-blue');" title="Indigo blue" class="indigo-blue"></a>
+                </li>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('deep-purple');" title="Deep purple" class="deep-purple"></a>
+                </li>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('teal');" title="Teal" class="teal"></a>
+                </li>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('pink');" title="Pink" class="pink"></a>
+                </li>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('brown');" title="Brown" class="brown"></a>
+                </li>
+                <li>
+                    <a href="#" onclick="setActiveStyleSheet('olive');" title="Olive" class="olive"></a>
+                </li>
+
+            </ul>
+
+            <div id="hideSwitcher">&times;</div>
+        </div>
+    </div>
+    <div id="showSwitcher" class="styleSecondColor"><i class="fa fa-cog fa-spin"></i></div>
+    <!-- Style Switcher Ends -->
+   {% include 'header.html' %}
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-green">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+
+    <!-- #END# Page Loader -->
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        {% include 'sidebar.html' %}
+        <!-- Page Content  -->
+        {% block content %}{% endblock %}
+        <!--/.wrapper-->
+    </div>
+    <!--Global script(used by all pages)-->
+    <script src="{% static 'assets/plugins/jQuery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/metisMenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/perfect-scrollbar/dist/perfect-scrollbar.min.js' %}"></script>
+    <!-- Third Party Scripts(used by this page)-->
+    {% block js %}{% endblock %}
+    <!--Page Active Scripts(used by this page)-->
+    
+    <!--Page Scripts(used by all page)-->
+    <script src="{% static 'assets/dist/js/sidebar.js' %}"></script>
+    <script src="{% static 'assets/dist/js/styleswitcher.js' %}"></script>
+
+   <script>
+     
+   </script>
+</body>
+
+</html>

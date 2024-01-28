@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %}Add Doctor{% endblock title %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="content-header d-flex justify-content-between">
+            <div class="page-header m-0">
+                <h4 class="page-title">Add New Doctor</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="typcn typcn-home-outline"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Doctor</a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Add Doctor</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+                
+        <!-- Button trigger modal -->
+               
+        <div class="body-content">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 fw-semi-bold mb-0">Doctor status</h6>
+                        </div>
+                        <div class="text-end">
+                            <div class="actions">
+                                <a href="#" class="action-item"><i class="ti-reload"></i></a>
+                                <div class="dropdown action-item">
+                                    <a href="#" class="action-item" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Refresh</a>
+                                        <a href="#" class="dropdown-item">Manage Widgets</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form action="." enctype="multipart/form-data" method="POST" accept-charset="utf-8">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="category_name" class="form-label">Email:</label>
+                                <input type="email" placeholder="Email Type here" class="form-control" name="email"/>
+                            </div>
+                            <div class="mb-4">
+                                <label for="category_name" class="form-label">Full Name:</label>
+                                <input type="text" placeholder="Full Name Type here" class="form-control" name="full_name"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">User Type</label>
+                                <select class="form-select" name="user_type">
+                                    <b>
+                                        <option value="2" selected>Doctor</option>
+                                    </b>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Department</label>
+                                <select class="form-select" name="department">
+                                    <option value="">Select Department</option>
+                                    {% for dep in department_list %}
+                                        <option value="{{dep.id}}">{{ dep.department_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Visit Amount</label>
+                                <input placeholder="Visit Amount of Doctor" type="number" class="form-control" name="visit_price"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Date Of Birth</label>
+                                <input placeholder="Date" type="date" class="form-control" name="dob"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Phone Number</label>
+                                <input placeholder="Phone Number" type="number" class="form-control" name="phone_number"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Address</label>
+                                <input placeholder="Address" type="text" class="form-control" name="address"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Profile Picture</label>
+                                <div class="input-upload">
+                                    <input class="form-control" type="file" name="profile_avatar" />
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="specialization" class="form-label">Specialization</label>
+                                <input type="text" placeholder="Specialization Type here" class="form-control" name="specialization" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="experience" class="form-label">Experience Year:</label>
+                                <input type="number" placeholder="Experience Type here" class="form-control" name="experience" />
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" name="status">
+                                    <option value="true">Active</option>
+                                    <option value="false">Inactive</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock content %}
+    
+    

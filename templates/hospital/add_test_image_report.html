@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% block title %}Add Test Report Image{% endblock title %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'assets/plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="content-header d-flex justify-content-between">
+            <div class="page-header m-0">
+                <h4 class="page-title">Add New Test Report Image</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="typcn typcn-home-outline"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Test Report Image</a>
+                    </li>
+                    <li class="separator">
+                        <i class="ti-angle-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Add Test Report Image</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+                
+        <!-- Button trigger modal -->
+               
+        <div class="body-content">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fs-17 fw-semi-bold mb-0">Test Report Image status</h6>
+                        </div>
+                        <div class="text-end">
+                            <div class="actions">
+                                <a href="#" class="action-item"><i class="ti-reload"></i></a>
+                                <div class="dropdown action-item">
+                                    <a href="#" class="action-item" data-bs-toggle="dropdown"><i class="ti-more-alt"></i></a>
+                                    <div class="dropdown-menu">
+                                        <a href="#" class="dropdown-item">Refresh</a>
+                                        <a href="#" class="dropdown-item">Manage Widgets</a>
+                                        <a href="#" class="dropdown-item">Settings</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form action="." enctype="multipart/form-data" method="POST" accept-charset="utf-8">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label class="form-label">Medical Test Data</label>
+                                <select class="form-select" name="medical_test" id="medicalTestSelect">
+                                    <option value="">Select Medical Test Data</option>
+                                    {% for data in medical_test_list %}
+                                        <option value="{{ data.id }}" data-qr-code="{{ data.qr_code }}">{{ data }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">QR Code</label>
+                                <input placeholder="QR Code" type="text" class="form-control" name="qr_code" id="qrCodeInput" readonly/>
+                            </div>                            
+                            <label class="form-label">Image</label>
+                            <div id="imageFields">
+                                <!-- Initial image field -->
+                                <div class="mb-4 input-upload">
+                                    <div class="input-group">
+                                        <input class="form-control" type="file" name="image" />
+                                        <span class="input-group-append">
+                                            <button type="button" class="btn btn-success btn-sm add-image-field">+</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="description" class="form-label">Description</label>
+                                <input type="text" placeholder="Description Type here" class="form-control" name="description" />
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const medicalTestSelect = document.getElementById('medicalTestSelect');
+        const qrCodeInput = document.getElementById('qrCodeInput');
+
+        medicalTestSelect.addEventListener('change', function () {
+            const selectedOption = medicalTestSelect.options[medicalTestSelect.selectedIndex];
+            const qrCode = selectedOption.getAttribute('data-qr-code');
+
+            // Update the QR code input field
+            qrCodeInput.value = qrCode;
+        });
+    });
+</script>
+
+
+<script>
+    // Add and remove image fields dynamically
+    document.addEventListener('DOMContentLoaded', function () {
+        const imageFieldsContainer = document.getElementById('imageFields');
+        
+        // Function to add a new image field
+        function addImageField() {
+            const newImageField = imageFieldsContainer.lastElementChild.cloneNode(true);
+            newImageField.querySelector('input').value = ''; // Clear the file input value
+            const addButton = newImageField.querySelector('.add-image-field');
+            addButton.textContent = '-'; // Change the button to a remove button
+            addButton.classList.remove('btn-success');
+            addButton.classList.add('btn-danger');
+            addButton.style.marginLeft = '5px'; // Adjust margin for the remove button
+            addButton.removeEventListener('click', addImageField);
+            addButton.addEventListener('click', removeImageField);
+            imageFieldsContainer.appendChild(newImageField);
+        }
+        
+        // Function to remove an image field
+        function removeImageField() {
+            const imageFields = document.querySelectorAll('.input-upload');
+            if (imageFields.length > 1) {
+                const removedField = this.parentElement.parentElement;
+                removedField.remove();
+            }
+        }
+        
+        // Initial setup
+        const addImageButtons = document.querySelectorAll('.add-image-field');
+        addImageButtons.forEach(button => button.addEventListener('click', addImageField));
+    });
+</script>
+
+{% endblock js %}
