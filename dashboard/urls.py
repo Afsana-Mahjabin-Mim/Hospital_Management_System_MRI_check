@@ -5,7 +5,8 @@ from .views import *
 app_name="dashboard"
 
 urlpatterns=[
-    path("",DashBoardView.as_view(),name="dashboard"),
+
+    path("admin-dashboard/",AdminDashBoardView.as_view(),name="dashboard"),
     
     path('add_doctor/', AddDoctorView.as_view(), name='add_doctor'),
     path('doctor_list/', ManageDoctorListView.as_view(), name='doctor_list'),
