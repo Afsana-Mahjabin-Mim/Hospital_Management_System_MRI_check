@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'users',
     'dashboard',
     'doctors',
+    'site_dashboard',
   
 ]
 

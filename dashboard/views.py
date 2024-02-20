@@ -16,11 +16,12 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 
+
 """
-        ------------ Dashboard View ------------
+        ------------ Admin Dashboard View ------------
 """
 
-class DashBoardView(View):
+class AdminDashBoardView(View):
     def get(self,request):
         doctor_count = Doctor.objects.count()
         patient_count = Patient.objects.count()

@@ -18,7 +18,7 @@ class DoctorDepartment(models.Model):
 class Doctor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     name = models.CharField(max_length=100, blank=True, null=True)
-    profile_pic= models.ImageField(upload_to='profile_pic/DoctorProfilePic/',null=True,blank=True)
+    profile_pic= models.ImageField(upload_to='media/profile_pic/DoctorProfilePic/',null=True,blank=True)
     address = models.CharField(max_length=40, null=True, blank=True)
     mobile = models.CharField(max_length=20,null=True)
     specialization = models.CharField(max_length=255, null=True, blank=True)
@@ -67,7 +67,7 @@ class Patient(models.Model):
     ]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="patient_user")
-    profile_pic = models.ImageField(upload_to='profile_pic/PatientProfilePic/',null=True,blank=True)
+    profile_pic = models.ImageField(upload_to='media/profile_pic/PatientProfilePic/',null=True,blank=True)
     name = models.CharField(max_length=100, blank=True, null=True)
     date_of_birth = models.DateField(null=True, blank =True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, null=True)
@@ -176,7 +176,7 @@ class MedicalTestImage(models.Model):
 
 class Image(models.Model):
     medical_test_image = models.ForeignKey(MedicalTestImage, on_delete=models.CASCADE, related_name='medical_test_image')
-    image = models.ImageField(upload_to='medical_tests_image/')
+    image = models.ImageField(upload_to='media/medical_tests_image/')
 
     def __str__(self):
         return f"Image {self.id} for {self.medical_test_image.qr_code}"
