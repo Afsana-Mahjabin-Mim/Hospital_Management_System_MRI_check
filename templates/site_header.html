@@ -8,7 +8,7 @@
                     <div class="col-lg-6 col-md-5 col-12">
                         <!-- Contact -->
                         <ul class="top-link">
-                            <li><a href="#">About</a></li>
+                            <li><a href="{% url 'site_dashboard:about_us' %}">About</a></li>
                             <li><a href="#">Doctors</a></li>
                             <li><a href="{% url 'site_dashboard:site_contact' %}">Contact</a></li>
                             <li><a href="#">FAQ</a></li>
@@ -35,7 +35,7 @@
                         <div class="col-lg-3 col-md-3 col-12">
                             <!-- Start Logo -->
                             <div class="logo">
-                                <a href="{% static 'index.html' %}"><img src="{% static 'img/logo.png' %}" alt="#"></a>
+                                <a href="{% url 'site_dashboard:main_dashboard' %}"><img src="{% static 'img/logo.png' %}" alt="#"></a>
                             </div>
                             <!-- End Logo -->
                             <!-- Mobile Nav -->
@@ -47,21 +47,18 @@
                             <div class="main-menu">
                                 <nav class="navigation">
                                     <ul class="nav menu">
-                                        <li class="active"><a href="#">Home <i class="icofont-rounded-down"></i></a>
-                                            <ul class="dropdown">
-                                                <li><a href="index.html">Home Page 1</a></li>
-                                            </ul>
-                                        </li>
+                                        <li class="active"><a href="{% url 'site_dashboard:main_dashboard' %}">Home</a></li>
                                         <li><a href="#">Doctos </a></li>
                                         <li><a href="#">Services </a></li>
                                         <li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
                                             <ul class="dropdown">
-                                                <li><a href="404.html">404 Error</a></li>
+                                                <li><a href="{% url 'site_dashboard:portfolio_details' %}">Portfolio Details</a></li>
+                                                <li><a href="{% url 'site_dashboard:four_O_four' %}">404 Error</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="#">Blogs <i class="icofont-rounded-down"></i></a>
                                             <ul class="dropdown">
-                                                <li><a href="blog-single.html">Blog Details</a></li>
+                                                <li><a href="{% url 'site_dashboard:blog_single' %}">Blog Details</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="{% url 'site_dashboard:site_contact' %}">Contact Us</a></li>
